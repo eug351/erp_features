@@ -27,6 +27,7 @@ pipeline {
         string(defaultValue: "${env.sqlUser}", description: 'Имя администратора сервера MS SQL. Если пустой, то используется доменная  авторизация', name: 'sqlUser')
         string(defaultValue: "${env.sqlPwd}", description: 'Пароль администратора MS SQL.  Если пустой, то используется доменная  авторизация', name: 'sqlPwd')
         string(defaultValue: "${env.templatebases}", description: 'Список баз для тестирования через запятую. Например work_erp,work_upp', name: 'templatebases')
+		string(defaultValue: "${env.backupsPath}", description: 'Необязательный. Список каталогов для резервного копирования через запятую. Число каталогов(если указаны), должно соответствовать числу баз тестирования. Например \\server1\backup,\\server2\backup', name: 'backupsPath')
         string(defaultValue: "${env.storages1cPath}", description: 'Необязательный. Пути к хранилищам 1С для обновления копий баз тестирования через запятую. Число хранилищ (если указаны), должно соответствовать числу баз тестирования. Например D:/temp/storage1c/erp,D:/temp/storage1c/upp', name: 'storages1cPath')
         string(defaultValue: "${env.storageUser}", description: 'Необязательный. Администратор хранилищ  1C. Должен быть одинаковым для всех хранилищ', name: 'storageUser')
         string(defaultValue: "${env.storagePwd}", description: 'Необязательный. Пароль администратора хранилищ 1c', name: 'storagePwd')
@@ -46,10 +47,16 @@ pipeline {
                     script {
                         templatebasesList = utils.lineToArray(templatebases.toLowerCase())
                         storages1cPathList = utils.lineToArray(storages1cPath.toLowerCase())
-
+						backupsPathList = utils.lineToArray(backupsPath.toLowerCase())
+						backupsPathSpecified = false
+						
                         if (storages1cPathList.size() != 0) {
                             assert storages1cPathList.size() == templatebasesList.size()
                         }
+						if (backupsPathList.size() != 0) {
+							backupsPathSpecified = true
+							assert backupsPathList.size() == templatebasesList.size()
+						}	
 
                         server1c = server1c.isEmpty() ? "localhost" : server1c
                         serverSql = serverSql.isEmpty() ? "localhost" : serverSql
@@ -76,7 +83,13 @@ pipeline {
                             storage1cPath = storages1cPathList[i]
                             testbase = "test_${templateDb}"
                             testbaseConnString = projectHelpers.getConnString(server1c, testbase, agent1cPort)
-                            backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"
+                            
+							if (backupsPathSpecified) {
+								backupPath = "backupsPathList[i]/temp_${templateDb}_${utils.currentDateStamp()}"
+							}
+							else {
+								backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"
+							}
 
                             // 1. Удаляем тестовую базу из кластера (если он там была) и очищаем клиентский кеш 1с
                             dropDbTasks["dropDbTask_${testbase}"] = dropDbTask(

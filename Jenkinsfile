@@ -85,7 +85,7 @@ pipeline {
                             testbaseConnString = projectHelpers.getConnString(server1c, testbase, agent1cPort)
                             
 							if (backupsPathSpecified) {
-								backupPath = "backupsPathList[i]/temp_${templateDb}_${utils.currentDateStamp()}"
+								backupPath = "${backupsPathList[i]}/temp_${templateDb}_${utils.currentDateStamp()}"
 							}
 							else {
 								backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"

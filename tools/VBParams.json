@@ -1,8 +1,5 @@
 {
-    "ВыполнитьСценарии": true,
-    "ЗавершитьРаботуСистемы": true,
     "ВыводитьСообщенияВФайл": "$workspaceRoot/build/out/vb.log",
-    "ЗакрытьTestClientПослеЗапускаСценариев": true,
     "КаталогФич": "$workspaceRoot/features",
     "КаталогиБиблиотек": [
         "./features/Libraries"
@@ -11,11 +8,17 @@
         "IgnoreOnCIMainBuild",
         "Draft"
     ],
+	"ВыполнитьСценарии": "Истина",
+	"ЗавершитьРаботуСистемы": "Истина",
+	"ЗакрытьTestClientПослеЗапускаСценариев": "Истина",
+	"ИнтервалВыполненияШага": "0.1",
     "ДелатьОтчетВФорматеАллюр": true,
     "КаталогOutputAllureБазовый": "$workspaceRoot/build/out/allure",
-    "ВРЕМЕННО_ОТКЛЮЧЕН_ДелатьОтчетВФорматеCucumberJson": true,
-    "ВРЕМЕННО_ОТКЛЮЧЕН_КаталогOutputCucumberJson": "$workspaceRoot/build/out/cucumber",
+	"СоздаватьПодкаталогВКаталогеAllureДляЭтойСборки": false,
+    "ДелатьОтчетВФорматеCucumberJson": true,
+    "КаталогOutputCucumberJson": "$workspaceRoot/build/out/cucumber",
     "ВыгружатьСтатусВыполненияСценариевВФайл": true,
+	"ДобавлятьКИмениСценарияУсловияВыгрузки": true,
     "ПутьКФайлуДляВыгрузкиСтатусаВыполненияСценариев": "$workspaceRoot/build/out/buildStatus.log",
     "ДелатьЛогВыполненияСценариевВТекстовыйФайл": true,
     "ИмяФайлаЛогВыполненияСценариев": "$workspaceRoot/build/out/vbOnline.log",
@@ -24,8 +27,7 @@
     "ДелатьСкриншотПриВозникновенииОшибки": true,
     "СниматьСкриншотКаждогоОкна1С": false,
     "КаталогOutputСкриншоты": "$workspaceRoot/build/out/allure",
-    "КомандаСделатьСкриншот": "nircmd savescreenshot ",
-    "ПутьКRunSikulix": "tools/sikulix/runsikulix.cmd",
-    "ПоставщикПользовательскихНастроек": "",
-    "АдресПользовательскихНастроек": ""
+    "КомандаСделатьСкриншот": "nircmd.exe savescreenshot ",
+	"СписокТеговОтбор": [],
+	"ТаймаутЗапуска1С": "60"
 }

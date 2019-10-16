@@ -202,7 +202,7 @@ pipeline {
 
                 allure includeProperties: false, jdk: '', results: [[path: 'build/out/allure']]
 				
-				emailext body: "<br>Project: ${env.JOB_NAME} <br> URL: ${env.BUILD_URL}", subject: "${currentBuild.result}: ${env.JOB_NAME}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+				emailext body: "<br>Project: ${env.JOB_NAME} <br> URL: ${env.BUILD_URL}", subject: "${currentBuild.result}: ${env.JOB_NAME}", to: '$DEFAULT_RECIPIENTS'
             }
         }
     }
